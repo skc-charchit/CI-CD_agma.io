@@ -1,6 +1,9 @@
 # Kubernetes Structure
 
-Kubernetes manifests are organized with Kustomize.
+## Owns
+
+Kubernetes manifests for the API, company website, platform services, and
+product deployments. Manifests are organized with Kustomize.
 
 ```text
 kubernetes/
@@ -32,3 +35,9 @@ kubernetes/
 - Product workloads should use separate namespaces or clearly defined labels and resource ownership.
 - CI builds and publishes images; deployment automation applies the selected overlay.
 - Cluster-wide infrastructure belongs in `cluster/`, not inside an application directory.
+
+## Stop here
+
+Keep application runtime code outside this directory. Put shared Kubernetes
+defaults in `base/`, environment differences in an overlay, and product
+deployment resources under `products/`.
