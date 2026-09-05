@@ -17,7 +17,8 @@ cd "$ROOT_DIR"
 
 uv lock --check
 
-PYTHONPATH="$ROOT_DIR/apps/api" uv run --no-sync python -m compileall -q apps/api/app
+PYTHONPATH="$ROOT_DIR/apps/api" uv run --no-sync python -c \
+    'import ast, pathlib; [ast.parse(path.read_text()) for path in pathlib.Path("apps/api/app").rglob("*.py")]'
 
 PYTHONPATH="$ROOT_DIR/apps/api" uv run uvicorn app.main:app \
     --host 127.0.0.1 --port "$API_PORT" >/tmp/agma-api-check.log 2>&1 &

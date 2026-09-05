@@ -30,3 +30,7 @@ Run the API locally from the repository root with:
 ```bash
 PYTHONPATH=apps/api uv run uvicorn app.main:app --reload --port 8000
 ```
+
+The API reads local values from the root `.env` file through `app/config.py`.
+Copy `.env.example` to `.env` and keep real secrets only in the ignored `.env`
+file or in the deployment platform's secret store.

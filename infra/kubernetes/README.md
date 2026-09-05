@@ -41,3 +41,7 @@ kubernetes/
 Keep application runtime code outside this directory. Put shared Kubernetes
 defaults in `base/`, environment differences in an overlay, and product
 deployment resources under `products/`.
+
+The production application overlays currently target the `agma-production`
+namespace. Replace the example ingress host in the company-web production
+overlay before deploying.

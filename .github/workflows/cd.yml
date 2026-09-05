@@ -1,0 +1,83 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      deploy:
+        description: Deploy the selected images to Kubernetes
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+  packages: write
+
+jobs:
+  images:
+    runs-on: ubuntu-latest
+    outputs:
+      api_image: ${{ steps.images.outputs.api_image }}
+      web_image: ${{ steps.images.outputs.web_image }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Define image names
+        id: images
+        env:
+          REPOSITORY: ${{ github.repository }}
+        run: |
+          IMAGE_PREFIX="ghcr.io/${REPOSITORY,,}"
+          echo "api_image=${IMAGE_PREFIX}/api:${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+          echo "web_image=${IMAGE_PREFIX}/company-web:${GITHUB_SHA}" >> "$GITHUB_OUTPUT"
+
+      - name: Build and push API image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/api/Dockerfile
+          push: true
+          tags: ${{ steps.images.outputs.api_image }}
+
+      - name: Build and push company web image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: apps/company-web/Dockerfile
+          push: true
+          tags: ${{ steps.images.outputs.web_image }}
+
+  deploy:
+    if: ${{ github.event_name == 'workflow_dispatch' && inputs.deploy == true }}
+    needs: images
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Configure kubectl
+        uses: azure/k8s-set-context@v4
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBE_CONFIG }}
+
+      - name: Apply Kubernetes resources
+        run: |
+          kubectl apply -k infra/kubernetes/namespaces
+          kubectl apply -k infra/kubernetes/apps/api/overlays/production
+          kubectl apply -k infra/kubernetes/apps/company-web/overlays/production
+          kubectl -n agma-production set image deployment/agma-api api=${{ needs.images.outputs.api_image }}
+          kubectl -n agma-production set image deployment/agma-company-web web=${{ needs.images.outputs.web_image }}
+          kubectl -n agma-production rollout status deployment/agma-api --timeout=180s
+          kubectl -n agma-production rollout status deployment/agma-company-web --timeout=180s

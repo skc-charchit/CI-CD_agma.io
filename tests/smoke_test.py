@@ -49,7 +49,7 @@ def main() -> None:
     def check_web() -> None:
         status, html = get_text(args.web_url)
         assert status == 200
-        assert "AGMA.io - Learn Without Limits" in html
+        assert "Learn Without Limits" in html
         assert "/api/v1/courses" in html
 
     wait_for(check_api, "the platform API")

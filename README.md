@@ -78,3 +78,18 @@ before pushing with:
 ```bash
 ./scripts/check.sh
 ```
+
+## CI/CD
+
+GitHub Actions are defined in `.github/workflows/`:
+
+- `ci.yml` runs locked dependency, compile, smoke, and diff checks on pull
+	requests and pushes to `main`.
+- `cd.yml` builds and publishes the API and company-web images to GHCR on
+	pushes to `main`.
+- The Kubernetes deploy job runs only from a manual workflow dispatch with
+	`deploy=true` and a configured `KUBE_CONFIG` secret.
+
+Copy `.env.example` to `.env` for local values. Never commit `.env` or place
+real secrets in GitHub workflow files. Production values should be stored as
+GitHub Environment secrets or Kubernetes secrets.
