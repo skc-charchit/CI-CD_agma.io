@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AGMA.io - Learn Without Limits</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome for Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        brand: { 50: '#eef2ff', 100: '#e0e7ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 900: '#312e81' }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Hide scrollbar for Chrome, Safari and Opera */
+        .scrollbar-hide::-webkit-scrollbar { display: none; }
+        /* Hide scrollbar for IE, Edge and Firefox */
+        .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+        .line-clamp-2 {
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 font-sans text-gray-800">
+
+    <!-- ================= HEADER ================= -->
+    <header class="bg-brand-700 text-white sticky top-0 z-50 shadow-md">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex items-center justify-between gap-4">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2 flex-shrink-0">
+                    <div class="bg-white text-brand-700 font-bold text-2xl px-2 py-1 rounded">AG</div>
+                    <span class="text-2xl font-bold tracking-tight hidden sm:block">AGMA.io</span>
+                </a>
+
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-2xl relative">
+                    <input type="text" placeholder="Search for courses, skills, or instructors..." 
+                           class="w-full py-2.5 px-4 pr-12 rounded-md text-gray-800 focus:outline-none focus:ring-2 focus:ring-brand-300">
+                    <button class="absolute right-0 top-0 h-full px-4 text-brand-600 hover:text-brand-800">
+                        <i class="fas fa-search text-lg"></i>
+                    </button>
+                </div>
+
+                <!-- Right Actions -->
+                <div class="flex items-center gap-4 sm:gap-6 flex-shrink-0">
+                    <a href="#" class="hidden md:flex items-center gap-2 hover:text-brand-100 transition">
+                        <i class="fas fa-chalkboard-teacher"></i>
+                        <span class="font-medium text-sm">Teach on AGMA</span>
+                    </a>
+                    <a href="#" class="relative hover:text-brand-100 transition">
+                        <i class="fas fa-shopping-cart text-xl"></i>
+                        <span class="absolute -top-2 -right-2 bg-yellow-400 text-brand-900 text-xs font-bold w-5 h-5 flex items-center justify-center rounded-full">2</span>
+                    </a>
+                    <button class="bg-white text-brand-700 px-5 py-1.5 rounded-md font-semibold hover:bg-brand-50 transition text-sm">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ================= CATEGORY NAV (Flipkart Style) ================= -->
+    <nav class="bg-white shadow-sm sticky top-[65px] z-40 border-b border-gray-200">
+        <div class="container mx-auto px-4">
+            <div class="flex items-center gap-8 overflow-x-auto scrollbar-hide py-3" id="category-nav">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </nav>
+
+    <!-- ================= MAIN CONTENT ================= -->
+    <main class="container mx-auto px-4 py-6 space-y-8">
+
+        <!-- Hero Banner -->
+        <section class="relative rounded-xl overflow-hidden bg-gradient-to-r from-brand-600 to-purple-700 text-white shadow-lg">
+            <div class="flex flex-col md:flex-row items-center justify-between p-8 md:p-12">
+                <div class="md:w-1/2 space-y-4 z-10">
+                    <span class="bg-yellow-400 text-brand-900 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">New Arrival</span>
+                    <h1 class="text-3xl md:text-5xl font-bold leading-tight">Master AI & Machine Learning in 2026</h1>
+                    <p class="text-brand-100 text-lg">Join 50,000+ students learning from industry experts. Get certified and boost your career.</p>
+                    <div class="flex gap-3 pt-2">
+                        <button class="bg-white text-brand-700 px-6 py-3 rounded-md font-bold hover:bg-gray-100 transition shadow-md">Explore Courses</button>
+                        <button class="border-2 border-white text-white px-6 py-3 rounded-md font-bold hover:bg-white/10 transition">View Career Tracks</button>
+                    </div>
+                </div>
+                <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center z-10">
+                    <img src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&auto=format&fit=crop&q=80" alt="Students learning" class="rounded-lg shadow-2xl rotate-2 hover:rotate-0 transition-transform duration-500 max-w-sm w-full object-cover">
+                </div>
+            </div>
+            <!-- Decorative circle -->
+            <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+        </section>
+
+        <!-- Section 1: Bestselling Courses (Horizontal Scroll) -->
+        <section class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+            <div id="bestsellers-section"></div>
+        </section>
+
+        <!-- Section 2: Career Tracks (Grid Layout) -->
+        <section>
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800">🚀 Top Career Tracks</h2>
+                <a href="#" class="text-brand-600 font-semibold text-sm hover:underline">View All Tracks <i class="fas fa-chevron-right text-xs"></i></a>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="career-tracks-section">
+                <!-- Populated by JS -->
+            </div>
+        </section>
+
+        <!-- Section 3: Programming & Development (Horizontal Scroll) -->
+        <section class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+            <div id="programming-section"></div>
+        </section>
+
+        <!-- Section 4: Business & Marketing (Horizontal Scroll) -->
+        <section class="bg-white rounded-lg shadow-sm border border-gray-200 p-5">
+            <div id="business-section"></div>
+        </section>
+
+    </main>
+
+    <!-- ================= FOOTER ================= -->
+    <footer class="bg-gray-900 text-gray-300 mt-12 pt-12 pb-6">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+                <div>
+                    <h3 class="text-white text-xl font-bold mb-4">AGMA.io</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Empowering learners worldwide with industry-relevant skills, expert-led courses, and recognized certifications.</p>
+                    <div class="flex gap-4 mt-4">
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-twitter text-xl"></i></a>
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-linkedin text-xl"></i></a>
+                        <a href="#" class="hover:text-white transition"><i class="fab fa-instagram text-xl"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Learn</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">All Courses</a></li>
+                        <li><a href="#" class="hover:text-white transition">Career Tracks</a></li>
+                        <li><a href="#" class="hover:text-white transition">Free Classes</a></li>
+                        <li><a href="#" class="hover:text-white transition">Enterprise</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Community</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Learner Stories</a></li>
+                        <li><a href="#" class="hover:text-white transition">Become an Instructor</a></li>
+                        <li><a href="#" class="hover:text-white transition">Affiliate Program</a></li>
+                        <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-white font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                        <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 pt-6 text-center text-sm text-gray-500">
+                &copy; 2026 AGMA.io. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- ================= JAVASCRIPT LOGIC ================= -->
+    <script>
+        // --- Mock Data ---
+        const categories = [
+            { name: "Web Development", icon: "fa-code" },
+            { name: "Data Science", icon: "fa-chart-line" },
+            { name: "UI/UX Design", icon: "fa-pen-nib" },
+            { name: "Digital Marketing", icon: "fa-bullhorn" },
+            { name: "Business", icon: "fa-briefcase" },
+            { name: "Personal Growth", icon: "fa-seedling" },
+            { name: "IT & Software", icon: "fa-server" },
+            { name: "Photography", icon: "fa-camera" }
+        ];
+
+        const courseTemplate = (course) => `
+            <div class="min-w-[260px] w-[260px] md:min-w-[280px] md:w-[280px] bg-white rounded-lg border border-gray-200 hover:shadow-xl transition-all duration-300 flex flex-col group cursor-pointer">
+                <div class="relative overflow-hidden">
+                    <img src="${course.image}" alt="${course.title}" class="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300">
+                    ${course.badge ? `<span class="absolute top-2 left-2 bg-yellow-400 text-xs font-bold px-2 py-1 rounded text-gray-900 shadow-sm">${course.badge}</span>` : ''}
+                </div>
+                <div class="p-4 flex flex-col flex-grow">
+                    <h3 class="font-semibold text-gray-800 text-sm mb-1 line-clamp-2 min-h-[40px] group-hover:text-brand-600 transition-colors">${course.title}</h3>
+                    <p class="text-xs text-gray-500 mb-2">${course.instructor}</p>
+                    <div class="flex items-center mb-3">
+                        <span class="bg-green-600 text-white text-xs font-bold px-1.5 py-0.5 rounded flex items-center">
+                            ${course.rating} <i class="fas fa-star text-[10px] ml-1"></i>
+                        </span>
+                        <span class="text-xs text-gray-500 ml-2">(${course.reviews.toLocaleString()})</span>
+                    </div>
+                    <div class="mt-auto">
+                        <div class="flex items-baseline space-x-2 flex-wrap">
+                            <span class="text-lg font-bold text-gray-900">₹${course.price}</span>
+                            <span class="text-sm text-gray-500 line-through">₹${course.originalPrice}</span>
+                            <span class="text-sm text-green-600 font-semibold">${course.discount}</span>
+                        </div>
+                        <button onclick="addToCart(${course.id})" class="w-full mt-3 bg-brand-600 hover:bg-brand-700 text-white font-medium py-2 rounded-md transition-colors text-sm flex items-center justify-center gap-2">
+                            <i class="fas fa-cart-plus"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        const renderHorizontalSection = (title, items, containerId) => {
+            const container = document.getElementById(containerId);
+            const cardsHtml = items.map(course => courseTemplate(course)).join('');
+            container.innerHTML = `
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">${title}</h2>
+                    <button class="bg-brand-600 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-brand-700 transition shadow-sm">VIEW ALL</button>
+                </div>
+                <div class="flex overflow-x-auto space-x-4 pb-4 scrollbar-hide">
+                    ${cardsHtml}
+                </div>
+            `;
+        };
+
+        const renderCareerTracks = () => {
+            const tracks = [
+                { title: "Full Stack Developer", courses: "12 Courses", duration: "6 Months", color: "bg-blue-50 border-blue-200", icon: "fa-laptop-code", iconColor: "text-blue-600" },
+                { title: "Data Analyst Pro", courses: "8 Courses", duration: "4 Months", color: "bg-green-50 border-green-200", icon: "fa-database", iconColor: "text-green-600" },
+                { title: "Digital Marketing Master", courses: "10 Courses", duration: "3 Months", color: "bg-purple-50 border-purple-200", icon: "fa-bullseye", iconColor: "text-purple-600" },
+                { title: "UI/UX Design Specialist", courses: "9 Courses", duration: "5 Months", color: "bg-pink-50 border-pink-200", icon: "fa-swatchbook", iconColor: "text-pink-600" }
+            ];
+            
+            const container = document.getElementById('career-tracks-section');
+            container.innerHTML = tracks.map(track => `
+                <div class="${track.color} border rounded-xl p-6 hover:shadow-md transition cursor-pointer group">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm mb-4 group-hover:scale-110 transition-transform">
+                        <i class="fas ${track.icon} ${track.iconColor} text-xl"></i>
+                    </div>
+                    <h3 class="font-bold text-gray-800 text-lg mb-1">${track.title}</h3>
+                    <div class="flex items-center text-sm text-gray-600 gap-3 mb-4">
+                        <span><i class="fas fa-book-open mr-1"></i> ${track.courses}</span>
+                        <span><i class="fas fa-clock mr-1"></i> ${track.duration}</span>
+                    </div>
+                    <button class="w-full bg-white border border-gray-300 text-gray-700 font-medium py-2 rounded-md hover:bg-gray-50 transition text-sm">Explore Track</button>
+                </div>
+            `).join('');
+        };
+
+        // --- Initialize ---
+        document.addEventListener('DOMContentLoaded', () => {
+            // Render Categories
+            const catNav = document.getElementById('category-nav');
+            catNav.innerHTML = categories.map(cat => `
+                <a href="#" class="flex flex-col items-center gap-2 min-w-[70px] group">
+                    <div class="w-12 h-12 rounded-full bg-brand-50 text-brand-600 flex items-center justify-center text-xl group-hover:bg-brand-600 group-hover:text-white transition-colors">
+                        <i class="fas ${cat.icon}"></i>
+                    </div>
+                    <span class="text-xs font-medium text-gray-700 group-hover:text-brand-600 text-center">${cat.name}</span>
+                </a>
+            `).join('');
+
+            // Mock Course Data
+            const bestsellers = [
+                { id: 1, title: "Complete Web Development Bootcamp 2026", instructor: "Dr. Angela Yu", rating: 4.8, reviews: 15420, price: 499, originalPrice: 3999, discount: "88% off", image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=500&auto=format&fit=crop&q=60", badge: "Bestseller" },
+                { id: 2, title: "Python for Data Science and Machine Learning", instructor: "Jose Portilla", rating: 4.7, reviews: 8900, price: 549, originalPrice: 4499, discount: "87% off", image: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=500&auto=format&fit=crop&q=60", badge: "Hot" },
+                { id: 3, title: "React - The Complete Guide (incl Hooks)", instructor: "Maximilian S.", rating: 4.9, reviews: 22100, price: 599, originalPrice: 3499, discount: "83% off", image: "https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=500&auto=format&fit=crop&q=60", badge: "Bestseller" },
+                { id: 4, title: "AWS Certified Solutions Architect 2026", instructor: "Stephane Maarek", rating: 4.8, reviews: 11200, price: 699, originalPrice: 5999, discount: "88% off", image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=500&auto=format&fit=crop&q=60", badge: null }
+            ];
+
+            const programming = [
+                { id: 5, title: "JavaScript: Understanding the Weird Parts", instructor: "Anthony Alicea", rating: 4.7, reviews: 5400, price: 399, originalPrice: 2999, discount: "86% off", image: "https://images.unsplash.com/photo-1579468118864-1b9ea3c0db4a?w=500&auto=format&fit=crop&q=60", badge: "New" },
+                { id: 6, title: "Advanced CSS and Sass: Flexbox, Grid, Animations", instructor: "Jonas Schmedtmann", rating: 4.9, reviews: 9800, price: 449, originalPrice: 3499, discount: "87% off", image: "https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?w=500&auto=format&fit=crop&q=60", badge: null },
+                { id: 7, title: "Node.js, Express, MongoDB & More: The Complete Bootcamp", instructor: "Jonas Schmedtmann", rating: 4.8, reviews: 7600, price: 549, originalPrice: 4999, discount: "89% off", image: "https://images.unsplash.com/photo-1627398242454-45a1465c2479?w=500&auto=format&fit=crop&q=60", badge: "Bestseller" }
+            ];
+
+            const business = [
+                { id: 8, title: "The Complete Digital Marketing Course", instructor: "Rob Percival", rating: 4.5, reviews: 12000, price: 499, originalPrice: 8999, discount: "94% off", image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=500&auto=format&fit=crop&q=60", badge: "Bestseller" },
+                { id: 9, title: "MBA in a Box: Business Lessons from the CEO", instructor: "Chris Haroun", rating: 4.6, reviews: 4500, price: 699, originalPrice: 5499, discount: "87% off", image: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=500&auto=format&fit=crop&q=60", badge: null },
+                { id: 10, title: "Financial Analysis and Valuation Masterclass", instructor: "365 Careers", rating: 4.7, reviews: 3200, price: 599, originalPrice: 4499, discount: "86% off", image: "https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?w=500&auto=format&fit=crop&q=60", badge: "New" }
+            ];
+
+            renderHorizontalSection("🔥 Bestselling Courses", bestsellers, 'bestsellers-section');
+            renderHorizontalSection("💻 Programming & Development", programming, 'programming-section');
+            renderHorizontalSection("📈 Business & Marketing", business, 'business-section');
+            renderCareerTracks();
+        });
+
+        // Simple cart interaction
+        function addToCart(courseId) {
+            alert(`Course ${courseId} added to your AGMA.io cart!`);
+        }
+    </script>
+</body>
+</html>
